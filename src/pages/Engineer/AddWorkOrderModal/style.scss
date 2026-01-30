@@ -1,0 +1,77 @@
+.add-work-order-container {
+    .checklist-label {
+        color: var(--primary-color);
+    }
+    .checklist-title-label {
+        color: var(--primary-color);
+        font-weight: 500;
+    }
+
+    .close-icon {
+        width: 28px;
+        height: 28px;
+        margin-right: 10px;
+        opacity: 0.8;
+      }
+      ion-row {
+        padding:10px 0;
+      }
+    .selected-checklists {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+    
+        ion-chip {
+            font-size: 14px;
+        }
+    }
+    
+    .priority-chip {
+        margin-top: 10px;
+    }
+    .selected-chip {
+        --background: var(--warning-color);
+        color: black;
+    }
+}
+
+.checklist-card {
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin: 10px 0;
+    background: #f9f9f9;
+    transition: transform 0.2s ease-in-out;
+    ion-col {
+        align-items: center;
+        display: flex
+    }
+
+    &:hover {
+        transform: scale(1.02);
+    }
+
+    .checklist-card-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .checklist-icon {
+            font-size: 24px;
+            color: #3880ff;
+            margin-right: 10px;
+        }
+
+        .checklist-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+    }
+
+    .checklist-description {
+        font-size: 14px;
+        color: #666;
+    }
+}

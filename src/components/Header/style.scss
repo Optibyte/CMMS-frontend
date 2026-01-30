@@ -1,0 +1,54 @@
+.header-toolbar {
+  --background: var(--primary-color);
+  color: white;
+    --padding-start: 10px;
+  }
+  
+  .greeting-title {
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  
+  .greeting-title span {
+    font-size: 24px;
+    margin-left: 5px;
+  }
+  
+  ion-avatar {
+    display: flex;
+    align-items: center;
+    img {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        margin: auto;
+      }
+  }
+  
+  .header-container {
+    height: 60px;
+    box-shadow: none;
+  }
+
+.notification-icon-container {
+  position: relative;
+  display: inline-block;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--error-color);
+  border-radius: 50%;
+  padding: 4px 6px;
+  font-size: 9px;
+  font-weight: bold;
+  transform: translate(30%, -30%);
+}
+
+.notification-icon {
+  font-size: 20px;
+}

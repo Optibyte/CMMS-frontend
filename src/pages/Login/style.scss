@@ -1,0 +1,31 @@
+ion-content {
+    --background: #FFFF;
+}
+
+.login-container {
+  .logo {
+    width: 100%;
+    display: block;
+    max-height: 300px;
+  }
+  .wel-msg {
+    font-weight: 800;
+    color: var(--primary-color);
+  }
+  p {
+    color: var(--secondary-color);
+  }
+  .submit-btn {
+    ion-button {
+      --background: var(--primary-color);
+      --background-activated: var(--primary-color);
+      --background-focused: var(--primary-color);
+      --background-hover: var(--secondary-color);
+      --color: #ffffff;
+    }
+  }
+  .link {
+    color: var(--secondary-color);
+  }
+} 
+  

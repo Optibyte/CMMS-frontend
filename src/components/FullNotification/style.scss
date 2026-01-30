@@ -1,0 +1,68 @@
+.close-icon {
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+    opacity: 0.6;
+  }
+
+  .notification-container {
+    .notification-card {
+      margin-bottom: 12px;
+      &.read {
+        opacity: 0.6;
+      }
+    }
+  
+    .notification-title {
+      display: flex;
+      flex-direction: column;
+      .label-title {
+        font-weight: bold;
+      }
+      .notification-time {
+        font-size: 0.9rem;
+      }
+    }
+  
+    .new-badge {
+      font-size: 0.8rem;
+    }
+  }
+
+  .my-jobs-grid {
+    .jobs-search {
+      --background: transparent;
+      border: solid 1px #cfcaca;
+      --box-shadow: none;
+      border-radius: 10px;
+    }
+    .home-qr-code {
+      margin: auto;
+    }
+  }
+  
+  h3 {
+    font-size: 24px;
+    color: #1c1e26;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  ion-segment-button {
+    min-width: 60px;
+  }
+  
+  .search-bar {
+    margin-bottom: 20px;
+  }
+
+  .job-segment-label {
+    font-size: 12px;
+    text-transform: capitalize;
+    align-items: center;
+  }
+  
+  .job-segment-contain {
+    width: max-content;
+  }
+  

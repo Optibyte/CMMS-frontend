@@ -1,0 +1,37 @@
+.common-input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #fff;
+    input {
+      background-color: #fff;
+    }
+  }
+  
+  .common-input-container .icon {
+    margin-right: 10px;
+    color: var(--ion-color-medium);
+  }
+  
+  .common-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 5px;
+  }
+  
+  .common-input::placeholder {
+    color: var(--ion-color-medium);
+  }
+  
+  .common-input-wrapper:focus-within {
+    border-color: var(--ion-color-primary);
+  }
+  
+  .common-input-wrapper:hover {
+    border-color: var(--ion-color-primary-shade);
+  }
+  

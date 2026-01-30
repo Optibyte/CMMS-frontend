@@ -1,0 +1,55 @@
+:root {
+  --ion-font-family: 'Montserrat', sans-serif;
+  /* General Background Colors */
+  --ion-background-color: #ffffff; /* White as the main background */
+  --ion-background-color-rgb: 255, 255, 255;
+
+  --ion-text-color: #000000; /* Black for primary text */
+  --ion-text-color-rgb: 0, 0, 0;
+
+  /* Text Shades for Hierarchy */
+  --ion-text-color-step-50: #1a1a1a; /* Dark text for titles */
+  --ion-text-color-step-100: #333333; /* Subtitles */
+  --ion-text-color-step-200: #4d4d4d; /* Body text */
+  --ion-text-color-step-300: #666666; /* Muted text */
+  --ion-text-color-step-400: #808080; /* Disabled or placeholder text */
+
+  /* Custom Colors */
+  --primary-color: #0D7C66; /* Deep green for primary highlights */
+  --primary-color-rgb: 13, 124, 102;
+
+  --secondary-color: #41B3A2; /* Lighter green for accents */
+  --secondary-color-rgb: 65, 179, 162;
+
+  --accent-color: #BDE8CA; /* Soft pastel green for decorative elements */
+  --accent-color-rgb: 189, 232, 202;
+
+  --highlight-color: #D7C3F1; /* Light purple for secondary highlights */
+  --highlight-color-rgb: 215, 195, 241;
+
+  /* Button and Card Backgrounds */
+  --button-background-color: #41B3A2; /* Secondary green for buttons */
+  --button-text-color: #ffffff; /* White text on buttons */
+
+  --card-background-color: #f9f9f9; /* Slight off-white for cards */
+  --card-border-color: #e6e6e6; /* Light grey borders */
+
+  /* Utility Colors */
+  --success-color: #0D7C66; /* Use for success states */
+  --info-color: #41B3A2; /* Informational highlights */
+  --warning-color: #D7C3F1; /* Warnings or attention-grabbing elements */
+  --error-color: #f44336; /* Error states in red */
+
+  /* Shadow and Border */
+  --shadow-color: rgba(0, 0, 0, 0.1); /* Soft shadow for cards/buttons */
+  --border-color: #e6e6e6; /* Divider and border color */
+  --progress-color: #d7da12;
+  --to-do-color: #ccc;
+
+  /* background color notification */
+  --notification-read: #f5f5f5;
+  --notification-unread: #cfd8cf17;
+  --notification-profile-border: #56a090;
+  --read-background: #f8f8f8;
+  --notification-hover: #f7f7f7
+}  

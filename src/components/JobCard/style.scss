@@ -1,0 +1,160 @@
+.job-card {
+    border-radius: 10px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background-color: #fff;
+    border: solid 1px #FFFFFF30;
+    margin: 0;
+    width: 100%;
+    margin-bottom: 20px;
+    
+    .job-card-content {
+      padding: 20px;
+    }
+    .arrow-icon {
+      display: flex;
+      align-items: center;
+      ion-icon {
+        font-size: 24px;
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  .job-title-container {
+    align-items: center;
+    h4 {
+      margin: 0;
+    }
+  }
+
+  .job-grid {
+    width: 100%;
+  }
+
+  .task-id-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    h4 {
+      color: var(--button-text-color);
+    }
+}
+  
+  .job-card .job-image {
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    min-height: 145px;
+  }
+  .job-card {
+    .job-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.6) 25%,
+        rgba(0, 0, 0, 0.4) 50%,
+        rgba(0, 0, 0, 0.1) 75%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      z-index: 1;
+    }
+  
+    .job-info {
+      position: absolute;
+      bottom: 10px;
+      left: 20px;
+      color: white;
+      z-index: 2;
+      font-size: 16px;
+      font-weight: bold;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Add subtle shadow for better visibility */
+      text-align: left;
+    }
+  }
+  
+  .job-card .job-image img {
+    object-fit: cover;
+    border-radius: 8px;
+    height: 185px;
+    width: 100%;
+  }
+  
+  .job-card .more-items-container {
+    padding: 10px;
+  }
+  
+  .job-card .more-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .job-card .more-item ion-icon {
+    margin-right: 10px;
+  }
+  
+  .job-card .more-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .job-card .more-item span {
+    font-size: 14px;
+  }
+  
+  .job-card .ion-text-right {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .more-items-container {
+    padding: 10px;
+    .more-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+    }
+  }
+  
+  .job-title-skeleton {
+    align-items: center;
+    justify-content: space-between;
+  }
+  .skeleton-box {
+    border-radius: 8px;
+    &.large {
+      height: 80px;
+      width: 80px;
+    }
+    &.medium {
+      height: 20px;
+      width: 60%;
+    }
+    &.small {
+      height: 15px;
+      width: 40%;
+      margin-top: 8px;
+    }
+    &.content {
+      height: 20px;
+      width: 90%;
+    }
+    &.secondary {
+      height: 20px;
+      width: 80%;
+      margin-top: 8px;
+    }
+    &.tertiary {
+      height: 20px;
+      width: 70%;
+      margin-top: 8px;
+    }
+  }
+  

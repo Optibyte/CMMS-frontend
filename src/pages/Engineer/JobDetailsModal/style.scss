@@ -1,0 +1,59 @@
+.job-modal {
+  --background: #ffffff; // Set background to white for a clean look
+
+  .close-icon {
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+    opacity: 0.8;
+  }
+
+  ion-header {
+    box-shadow: none;
+    border-bottom: solid 1px #e0e0e0; // Subtle divider
+  }
+
+  .job-details {
+    margin: 0;
+    .job-details-header {
+      gap: 5px;
+    }
+  }
+
+  .status-col {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .section-header {
+    background-color: var(--primary-color); // Theme primary color
+    color: #ffffff;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    margin-top: 15px;
+    font-weight: bold;
+  }
+
+  .job-details-card {
+    margin: 0;
+  }
+
+  .job-details-content {
+    .job-image {
+      width: 100%;
+      height: 200px;
+      padding: 10px 0;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .approve-button,
+    .assign-button {
+      --background: var(--primary-color);
+      color: #ffffff;
+    }
+  }
+}

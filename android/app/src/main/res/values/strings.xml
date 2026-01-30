@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">FixByte</string>
+    <string name="title_activity_main">FixByte</string>
+    <string name="package_name">io.sustainabyte.fixbtye</string>
+    <string name="custom_url_scheme">io.sustainabyte.fixbtye</string>
+</resources>

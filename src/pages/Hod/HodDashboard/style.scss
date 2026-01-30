@@ -1,0 +1,29 @@
+
+.hod-dashboard {
+  .hod-task-table, .work-order-table {
+    margin-top: 20px;
+  }
+  .page-header-container {
+    margin-top: 0;
+
+    ion-icon {
+      font-size: 18px;
+    }
+    .job-segment-label {
+      font-size: 12px;
+      text-transform: capitalize;
+      align-items: center;
+    }
+  }
+  .donut-chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .mui-datagrid {
+    background-color: #fff;
+    border-radius: 8px;
+  }
+}

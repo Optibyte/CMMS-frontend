@@ -1,0 +1,27 @@
+.custom-toast {
+    --background: #323232; /* Dark background for better contrast */
+    --color: #ffffff; /* White text for better readability */
+    --border-radius: 8px; /* Rounded corners for modern look */
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+    --padding: 12px; /* Add some padding inside the toast */
+    font-family: 'Arial', sans-serif; /* Clean font */
+    font-size: 14px; /* Readable font size */
+}
+
+.toast-dismiss-button {
+    --color: #ffffff; /* Button text color */
+    --background: transparent; /* Transparent background */
+    font-weight: bold; /* Make the dismiss button stand out */
+}
+
+.custom-toast-button {
+    --background: #007bff; /* Blue button background */
+    --color: #ffffff; /* White text */
+    border-radius: 20px; /* Rounded button */
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.custom-toast-button:hover {
+    --background: #0056b3; /* Darker blue on hover */
+}

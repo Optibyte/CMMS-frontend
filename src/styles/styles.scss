@@ -1,0 +1,84 @@
+  
+  .no-padding {
+    padding: 0 !important;
+  }
+  hr {
+    border-bottom: dotted 1px var(--ion-text-color-step-50);
+  }
+  body {
+    .header-container {
+      height: 60px;
+      box-shadow: none;
+    }
+    .disabled {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+  }
+  ion-toast.custom-toast {
+    --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  ion-toast.custom-toast::part(message) {
+    font-style: italic;
+  }
+  
+  ion-toast.custom-toast::part(button) {
+    border-left: 1px solid #d2d2d2;
+    font-size: 15px;
+  }
+
+  .page-header-container {
+    margin-top: 64px;
+  }
+
+  .page-header-container, .notification-header-container{
+    .toolbar-searchbar {
+      --background: var(--primary-color);
+      color: white;
+    }
+    ion-segment-button {
+      --color-checked: var(--button-text-color);
+      --color: var(--button-text-color);
+    }
+  }
+  .toolbar-title-default {
+    --background: var(--primary-color);
+    --color: var(--button-text-color);
+  }
+
+  .label-title {
+    color: var(--primary-color);
+    font-weight: 700;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .status-text {
+    &.Completed {
+      color: var(--secondary-color);
+    }
+    &.Submitted {
+      color: var(--secondary-color);
+    }
+    &.Progress {
+      color: var(--progress-color);
+    }
+    &.Do {
+      color: var(--to-do-color);
+    }
+  }
+
+  .popover-class {
+    --width: 90%;
+  }
+
+  .notification-segment-container {
+    ion-segment-button {
+      --color-checked: var(--primary-color);
+      --color: var(--primary-color);
+    }
+  }
+  
