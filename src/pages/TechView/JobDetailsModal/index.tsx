@@ -3,7 +3,7 @@ import { IonButtons, IonButton, IonModal, IonHeader, IonContent, IonToolbar, Ion
 import './style.scss';
 import ChecklistComponent from '../../../components/JobCheckList';
 import { closeOutline, locationOutline, qrCodeOutline } from 'ionicons/icons';
-import { updateTask } from '../../../api/task';
+import { updateTask, uploadTaskImage, deleteTaskImage } from '../../../api/task';
 import { updateMultipleChecklists } from '../../../api/checklist';
 import { useToast } from '../../../contexts/ToastContext';
 import machine1 from '../../../assets/machine_1.png';
@@ -66,13 +66,58 @@ const TechJobDetailsModal: React.FC<JobDetailsModalProps> = ({ isOpen, closeModa
     });
   };
 
-  const onUploadImages = (e: any, index: number) => {
-    const updatedChecklist = [...editableJobDetails.checklists];
-    updatedChecklist[index].uploadedImages = uploadedImages;
-    setEditableJobDetails({
-      ...editableJobDetails,
-      checklists: updatedChecklist
-    });
+  const onUploadImages = async (files: FileList | null, index: number) => {
+    if (!files) return;
+
+    try {
+      showLoading();
+      const checklistId = editableJobDetails.checklists[index].id;
+      const taskId = editableJobDetails.id;
+      const uploadPromises = Array.from(files).map(file => uploadTaskImage(file, checklistId, taskId));
+      const results = await Promise.all(uploadPromises);
+      const imageUrls = results.map(res => res.url);
+
+      const updatedChecklist = [...editableJobDetails.checklists];
+      updatedChecklist[index].uploadedImages = [
+        ...(updatedChecklist[index].uploadedImages || []),
+        ...imageUrls
+      ];
+
+      setEditableJobDetails({
+        ...editableJobDetails,
+        checklists: updatedChecklist
+      });
+      showToast('Images uploaded successfully');
+    } catch (error) {
+      console.error('Failed to upload images:', error);
+      showToast('Failed to upload images', 'danger');
+    } finally {
+      hideLoading();
+    }
+  }
+
+  const onRemoveImage = async (imageUrl: string, index: number) => {
+    try {
+      showLoading();
+      const checklistId = editableJobDetails.checklists[index].id;
+      await deleteTaskImage(imageUrl, checklistId);
+
+      const updatedChecklist = [...editableJobDetails.checklists];
+      updatedChecklist[index].uploadedImages = updatedChecklist[index].uploadedImages.filter(
+        (url: string) => url !== imageUrl
+      );
+
+      setEditableJobDetails({
+        ...editableJobDetails,
+        checklists: updatedChecklist
+      });
+      showToast('Image removed successfully');
+    } catch (error) {
+      console.error('Failed to delete image:', error);
+      showToast('Failed to delete image', 'danger');
+    } finally {
+      hideLoading();
+    }
   }
 
   /**
@@ -88,9 +133,10 @@ const TechJobDetailsModal: React.FC<JobDetailsModalProps> = ({ isOpen, closeModa
         questionType: checklist.questionType,
         option: checklist.option || {},
         description: checklist.description,
-        status: checklist.status,
+        status: checklist.status?.value,
         remarks: checklist.remarks || '',
         expectedAnswer: checklist.expectedAnswer,
+        photos: checklist.uploadedImages || [],
       },
     }));
   };
@@ -102,6 +148,7 @@ const TechJobDetailsModal: React.FC<JobDetailsModalProps> = ({ isOpen, closeModa
       showToast('All checklists updated successfully..!');
     } catch (error) {
       console.error('Failed to update checklists:', error);
+      throw error;
     }
   };
 
@@ -126,12 +173,21 @@ const TechJobDetailsModal: React.FC<JobDetailsModalProps> = ({ isOpen, closeModa
   };
 
   const onCompleteJob = async () => {
-    showLoading();
-    const payload = prepareTaskUpdatePayload(editableJobDetails);
-    await updateTask(editableJobDetails.id, payload);
-    completeJob();
-    hideLoading();
-    showToast('Successfully submitted the job..!');
+    try {
+      showLoading();
+      // Ensure all checklist changes are saved
+      await handleUpdateAllChecklists();
+
+      const payload = prepareTaskUpdatePayload(editableJobDetails);
+      await updateTask(editableJobDetails.id, payload);
+      completeJob();
+      showToast('Successfully submitted the job..!');
+    } catch (error) {
+      console.error('Failed to complete job:', error);
+      showToast('Failed to submit job', 'danger');
+    } finally {
+      hideLoading();
+    }
   };
 
   const isChecklistComplete = () => {
@@ -263,6 +319,7 @@ const TechJobDetailsModal: React.FC<JobDetailsModalProps> = ({ isOpen, closeModa
                     handleCheckboxChange={handleCheckboxChange}
                     handleCheckListMode={toggleChecklistMode}
                     onUploadImages={onUploadImages}
+                    onRemoveImage={onRemoveImage}
                   />
                   <hr />
                 </>
@@ -284,7 +341,14 @@ const TechJobDetailsModal: React.FC<JobDetailsModalProps> = ({ isOpen, closeModa
               )}
             </IonText>
             <br />
-            {(editableJobDetails.status.value != STATUS.COMPLETED && editableJobDetails.status.value != STATUS.SUBMITTED) && <CommonButton disabled={(!isChecklistComplete() || isEditChecklist)} onClick={onCompleteJob} rootClass="checklist-btn" label={'Done'}></CommonButton>}
+            {(editableJobDetails.status.value !== STATUS.COMPLETED && editableJobDetails.status.value !== STATUS.SUBMITTED) && (
+              <CommonButton
+                disabled={(!isChecklistComplete() || isEditChecklist)}
+                onClick={onCompleteJob}
+                rootClass="checklist-btn"
+                label={'Done'}
+              />
+            )}
           </IonCardContent>
         </IonCard>
       </IonContent>

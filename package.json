@@ -14,6 +14,7 @@
   "dependencies": {
     "@capacitor/android": "^6.2.0",
     "@capacitor/app": "6.0.1",
+    "@capacitor/camera": "^8.0.0",
     "@capacitor/core": "^6.2.0",
     "@capacitor/haptics": "6.0.1",
     "@capacitor/keyboard": "6.0.2",
@@ -21,6 +22,7 @@
     "@emotion/react": "^11.13.5",
     "@emotion/styled": "^11.13.5",
     "@ionic/cli": "^7.2.0",
+    "@ionic/pwa-elements": "^3.3.0",
     "@ionic/react": "^8.0.0",
     "@ionic/react-router": "^8.4.0",
     "@mui/material": "^6.1.10",

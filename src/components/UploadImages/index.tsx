@@ -12,17 +12,20 @@ import {
   IonContent,
   IonRow,
   IonCol,
+  IonLabel,
 } from '@ionic/react';
-import { imagesOutline, closeOutline } from 'ionicons/icons';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { imagesOutline, cameraOutline, closeOutline, trashOutline } from 'ionicons/icons';
 import './style.scss';
 
 interface UploadImagesProps {
   uploadedImages: string[];
   isEditing: boolean;
-  onUploadImages: (images: FileList | null) => void;
+  onUploadImages: (files: File[]) => void;
+  onRemoveImage?: (imageUrl: string) => void;
 }
 
-const UploadImages: React.FC<UploadImagesProps> = ({ uploadedImages, isEditing, onUploadImages }) => {
+const UploadImages: React.FC<UploadImagesProps> = ({ uploadedImages, isEditing, onUploadImages, onRemoveImage }) => {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
@@ -35,62 +38,150 @@ const UploadImages: React.FC<UploadImagesProps> = ({ uploadedImages, isEditing, 
     setIsPreviewOpen(false);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      // Add validation for image formats (e.g., jpg, png)
-      const validFiles = Array.from(files).filter((file) =>
-        ['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)
-      );
+  const takePicture = async () => {
+    try {
+      // Check if running on web browser
+      const isWeb = window.location.protocol.startsWith('http');
 
-      if (validFiles.length < files.length) {
-        alert('Some files were not valid images (only jpg/png allowed)');
+      if (isWeb) {
+        // Web fallback: use HTML5 camera
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.setAttribute('capture', 'environment');
+        input.onchange = (e: any) => {
+          const file = e.target?.files?.[0];
+          if (file) onUploadImages([file]);
+        };
+        input.click();
+        return;
       }
 
-      onUploadImages(files);
+      // Native: use Capacitor Camera
+      const permissions = await Camera.checkPermissions();
+      if (permissions.camera !== 'granted') {
+        const request = await Camera.requestPermissions({ permissions: ['camera'] });
+        if (request.camera !== 'granted') {
+          alert('Camera permission denied.');
+          return;
+        }
+      }
+
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Camera,
+      });
+
+      if (image && image.webPath) {
+        const res = await fetch(image.webPath);
+        const blob = await res.blob();
+        const file = new File([blob], `cam-${Date.now()}.${image.format}`, { type: `image/${image.format}` });
+        onUploadImages([file]);
+      }
+    } catch (e: any) {
+      console.error('Camera error:', e);
+      if (e?.message && !e.message.includes('cancel')) {
+        alert(`Camera error: ${e.message}`);
+      }
+    }
+  };
+
+  const pickFromGallery = async () => {
+    try {
+      // Check if running on web browser
+      const isWeb = window.location.protocol.startsWith('http');
+
+      if (isWeb) {
+        // Web fallback: use file picker
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.multiple = true;
+        input.onchange = (e: any) => {
+          const files = e.target?.files;
+          if (files && files.length > 0) {
+            onUploadImages(Array.from(files));
+          }
+        };
+        input.click();
+        return;
+      }
+
+      // Native: use Capacitor Camera
+      const result = await Camera.pickImages({
+        quality: 90,
+        limit: 5,
+      });
+
+      if (result && result.photos && result.photos.length > 0) {
+        const files: File[] = [];
+        for (const photo of result.photos) {
+          const res = await fetch(photo.webPath);
+          const blob = await res.blob();
+          const file = new File([blob], `gal-${Date.now()}.${photo.format}`, { type: `image/${photo.format}` });
+          files.push(file);
+        }
+        onUploadImages(files);
+      }
+    } catch (e: any) {
+      console.error('Gallery error:', e);
+      if (e?.message && !e.message.includes('cancel')) {
+        alert('Gallery failed.');
+      }
     }
   };
 
   return (
     <div className="upload-images-wrapper">
-      {uploadedImages.length > 0 ? (
-        <div className="image-preview-grid">
-          {uploadedImages.slice(0, 3).map((image, index) => (
-            <div key={index} className="image-preview-thumbnail">
+      <div className="upload-actions">
+        {isEditing && (
+          <div className="upload-buttons-container">
+            <IonButton className="upload-btn" fill="outline" onClick={takePicture}>
+              <IonIcon slot="start" icon={cameraOutline} />
+              <IonLabel>Camera</IonLabel>
+            </IonButton>
+            <IonButton className="upload-btn" fill="outline" onClick={pickFromGallery}>
+              <IonIcon slot="start" icon={imagesOutline} />
+              <IonLabel>Gallery</IonLabel>
+            </IonButton>
+          </div>
+        )}
+      </div>
+
+      {uploadedImages.length > 0 && (
+        <div className="image-preview-scroller">
+          {uploadedImages.map((image, index) => (
+            <div key={index} className="thumbnail-container">
               <img
                 src={image}
-                alt={`Uploaded ${index + 1}`}
-                className="image-thumbnail"
+                alt="Upload"
+                className="img-thumb"
                 onClick={handlePreview}
               />
+              {isEditing && onRemoveImage && (
+                <div className="remove-image-overlay" onClick={(e) => {
+                  e.stopPropagation();
+                  onRemoveImage(image);
+                }}>
+                  <IonIcon icon={trashOutline} />
+                </div>
+              )}
             </div>
           ))}
-          {uploadedImages.length > 3 && (
-            <div className="extra-image-count" onClick={handlePreview}>
-              +{uploadedImages.length - 3}
-            </div>
-          )}
-        </div>
-      ) : (
-        <div className={`upload-placeholder ${isEditing ? '' : 'disabled'}`}>
-          <IonIcon icon={imagesOutline} className="upload-icon" />
-          {isEditing && (
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              className="upload-input"
-              onChange={handleFileChange}
-            />
-          )}
-          <IonText color="medium">No images uploaded. Click to upload images.</IonText>
         </div>
       )}
+      {isEditing && uploadedImages.length === 0 && (
+        <IonText color="medium" className="empty-text">
+          No images attached. Use Camera or Gallery.
+        </IonText>
+      )}
 
-      <IonModal isOpen={isPreviewOpen} onDidDismiss={closePreview}>
+      <IonModal isOpen={isPreviewOpen} onDidDismiss={closePreview} className="image-modal">
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Image Preview</IonTitle>
+            <IonTitle>View Images</IonTitle>
             <IonButtons slot="end">
               <IonButton onClick={closePreview}>
                 <IonIcon icon={closeOutline} />
@@ -98,10 +189,10 @@ const UploadImages: React.FC<UploadImagesProps> = ({ uploadedImages, isEditing, 
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <IonContent>
-          <div className="image-preview-grid">
-            {selectedImages.map((image, idx) => (
-              <IonImg key={idx} src={image} className="preview-image" />
+        <IonContent color="light">
+          <div className="full-image-list">
+            {uploadedImages.map((image, idx) => (
+              <IonImg key={idx} src={image} className="full-width-img" />
             ))}
           </div>
         </IonContent>

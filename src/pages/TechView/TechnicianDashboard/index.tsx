@@ -69,7 +69,7 @@ const TechnicianDashboard: React.FC = (props: any) => {
             .then((tasks) => {
                 setAllJobs(tasks.map(parseTask));
                 const inProgress = tasks
-                    .filter((task: any) => task.status.value == STATUS.IN_PROGRESS)
+                    .filter((task: any) => task.status.value == STATUS.IN_PROGRESS || task.status.value == STATUS.TO_DO)
                     .map(parseTask);
 
                 const completed = tasks

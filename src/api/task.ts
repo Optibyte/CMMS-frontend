@@ -53,7 +53,7 @@ export const approveTask = async (taskId: string, payload: any) => {
 };
 
 export const approveHodTask = async (taskId: string, payload: any) => {
-    return await api.put(API_ENDPOINTS.APPROVE_HOD_TASK.replace(':taskid',taskId),payload);
+    return await api.put(API_ENDPOINTS.APPROVE_HOD_TASK.replace(':taskid', taskId), payload);
 };
 
 /**
@@ -93,6 +93,28 @@ export const fetchAssets = async () => {
     }
 };
 
+// Create asset
+export const createAsset = async (payload: any) => {
+    try {
+        const response = await api.post(API_ENDPOINTS.ASSET_CREATE, payload);
+        return response.data;
+    } catch (error) {
+        console.error('Failed to create asset:', error);
+        throw error;
+    }
+};
+
+// Update asset
+export const updateAsset = async (assetId: string, payload: any) => {
+    try {
+        const response = await api.put(API_ENDPOINTS.ASSET_UPDATE.replace(':assetId', assetId), payload);
+        return response.data;
+    } catch (error) {
+        console.error('Failed to update asset:', error);
+        throw error;
+    }
+};
+
 // Create task
 export const createTask = async (payload: any) => {
     try {
@@ -115,3 +137,45 @@ export const getTaskById = async (taskId: string) => {
         throw error
     }
 }
+
+export const uploadTaskImage = async (file: File, checklistId?: string, taskId?: string) => {
+    try {
+        const formData = new FormData();
+        formData.append('image', file);
+        if (checklistId) {
+            formData.append('checklistId', checklistId);
+        }
+        if (taskId) {
+            formData.append('taskId', taskId);
+        }
+        const response = await api.post(API_ENDPOINTS.UPLOAD_TASK_IMAGE, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        throw error;
+    }
+};
+
+export const deleteTaskImage = async (url: string, checklistId?: string) => {
+    try {
+        const response = await api.post(API_ENDPOINTS.DELETE_TASK_IMAGE, { url, checklistId });
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting image:', error);
+        throw error;
+    }
+};
+
+export const fetchChecklistPhotos = async (checklistId: string) => {
+    try {
+        const response = await api.get(API_ENDPOINTS.GET_CHECKLIST_PHOTOS(checklistId));
+        return response.data.photos || [];
+    } catch (error) {
+        console.error('Error fetching checklist photos:', error);
+        throw error;
+    }
+};

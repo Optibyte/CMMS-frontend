@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:3000',  // Replace with your base API URL
+    baseURL: 'http://192.168.1.7:3000',  // Use local IP for mobile debugging
     headers: {
         'Content-Type': 'application/json',
     },

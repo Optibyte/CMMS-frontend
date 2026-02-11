@@ -31,6 +31,7 @@ export const parseTask = (task: any, index: number): Task => {
             option: checklist.option,
             remarks: checklist.remarks || 'No remarks',
             expectedAnswer: checklist.expectedAnswer || 'N/A',
+            uploadedImages: checklist.photos || [],
         })) || [],
         assignedTo: task.assignedTo
             ? {

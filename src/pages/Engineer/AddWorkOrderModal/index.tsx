@@ -74,7 +74,7 @@ const AddWorkOrderModal = ({ isOpen, closeModal }: any) => {
         ? checklists.filter((c) => c.category === selectedCategory)
         : checklists;
     const { showLoading, hideLoading } = useLoading();
-    
+
     useEffect(() => {
         fetchAssetsList();
     }, []);

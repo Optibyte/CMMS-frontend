@@ -14,7 +14,7 @@ import {
 } from '@ionic/react';
 
 import { useHistory } from 'react-router-dom';
-import { logOutOutline } from 'ionicons/icons';
+import { logOutOutline, homeOutline, cubeOutline } from 'ionicons/icons';
 import './style.scss';
 import { ROUTES } from '../../utils';
 import { useDispatch, connect } from 'react-redux';
@@ -56,6 +56,17 @@ const Menu: React.FC = ({ user }: any) => {
                             </IonLabel>
                         </IonCol>
                     </IonRow>
+                </div>
+
+                <div className="menu-items">
+                    <IonItem button lines="none" onClick={() => history.push(user?.role?.name === 'HOD' ? ROUTES.HOD : user?.role?.name === 'ENGINEER' ? ROUTES.ENGINEER : ROUTES.TECHNICIAN)}>
+                        <IonIcon slot="start" icon={homeOutline} />
+                        <IonLabel>Dashboard</IonLabel>
+                    </IonItem>
+                    <IonItem button lines="none" onClick={() => history.push(ROUTES.ASSET_HUB)}>
+                        <IonIcon slot="start" icon={cubeOutline} />
+                        <IonLabel>Asset Management</IonLabel>
+                    </IonItem>
                 </div>
             </IonContent>
 

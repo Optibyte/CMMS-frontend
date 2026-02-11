@@ -1,69 +1,79 @@
 .upload-images-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin: 15px 0;
+  margin-top: 10px;
 
-  .upload-placeholder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border: 2px dashed var(--ion-color-medium);
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      cursor: pointer;
-      position: relative;
+  .upload-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
 
-      .upload-icon {
-          font-size: 24px;
-          color: var(--ion-color-primary);
-          margin-bottom: 8px;
-      }
-
-      .upload-input {
-          position: absolute;
-          opacity: 0;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          cursor: pointer;
-      }
+    .upload-btn {
+      --padding-start: 12px;
+      --padding-end: 12px;
+      height: 38px;
+      font-size: 14px;
+      margin: 0;
+    }
   }
 
-  .image-preview-grid {
-      display: flex;
-      gap: 10px;
+  .image-preview-scroller {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
 
-      .image-preview-thumbnail {
-          position: relative;
-          width: 60px;
-          height: 60px;
-          overflow: hidden;
-          border-radius: 8px;
+    .thumbnail-container {
+      flex: 0 0 70px;
+      height: 70px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      position: relative;
 
-          .image-thumbnail {
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              cursor: pointer;
-          }
+      .img-thumb {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
 
-      .extra-image-count {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: var(--ion-color-light);
-          border: 2px solid var(--ion-color-medium);
-          border-radius: 8px;
-          width: 60px;
-          height: 60px;
-          font-weight: bold;
-          cursor: pointer;
+      .remove-image-overlay {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        background: rgba(255, 0, 0, 0.7);
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        cursor: pointer;
+        z-index: 10;
       }
+    }
+  }
+
+  .empty-text {
+    font-size: 13px;
+    display: block;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+}
+
+.full-image-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+
+  .full-width-img {
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: auto;
   }
 }

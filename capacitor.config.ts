@@ -5,6 +5,7 @@ const config: CapacitorConfig = {
   appName: 'FixByte',
   webDir: 'dist',
   server: {
+    url: 'http://192.168.1.7:5173',
     androidScheme: "http",
     cleartext: true
   }

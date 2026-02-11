@@ -75,14 +75,14 @@ const FullNotification = ({ user, isOpen, closeModal }: any) => {
     const loadMore = () => {
         const nextOffset = offset + notificationLimit;
         setOffset(nextOffset);
-        if (selectedSegment==='read'){
+        if (selectedSegment === 'read') {
             loadNotifications(nextOffset, true);
         }
-        else if (selectedSegment==='unread'){
+        else if (selectedSegment === 'unread') {
             loadNotifications(nextOffset, false)
         }
-        else{
-            loadNotifications(nextOffset, null) 
+        else {
+            loadNotifications(nextOffset, null)
         }
     };
 
@@ -95,14 +95,14 @@ const FullNotification = ({ user, isOpen, closeModal }: any) => {
     useEffect(() => {
         if (isOpen) {
             resetValues();
-            if (selectedSegment==='read'){
+            if (selectedSegment === 'read') {
                 loadNotifications(0, true);
             }
-            else if (selectedSegment==='unread'){
+            else if (selectedSegment === 'unread') {
                 loadNotifications(0, false)
             }
-            else{
-                loadNotifications(0, null) 
+            else {
+                loadNotifications(0, null)
             }
             console.log('selectedSegmentafter', selectedSegment);
         }
@@ -146,7 +146,7 @@ const FullNotification = ({ user, isOpen, closeModal }: any) => {
                                 value={selectedSegment}
                                 scrollable
                                 onIonChange={(e) => {
-                                    setSelectedSegment(e.detail.value);
+                                    setSelectedSegment(String(e.detail.value || 'all'));
                                 }}
                             >
                                 <IonSegmentButton value="all">
@@ -234,7 +234,7 @@ const FullNotification = ({ user, isOpen, closeModal }: any) => {
                     </IonInfiniteScroll>
                 </IonList>
             </IonContent>
-        </IonModal>
+        </IonModal >
     );
 };
 

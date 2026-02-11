@@ -56,24 +56,16 @@ const EngJobDetailsModal: React.FC<JobDetailsModalProps> = ({
   const [assignedTo, setAssignedTo] = useState('');
   const [approvalRemarks, setApprovalRemarks] = useState('');
   const [technicians, setTechnicians] = useState<any[]>([]);
-  const [approvalStatus, setApprovalStatus] = useState('approved');
+  const [rescheduleDate, setRescheduleDate] = useState(jobDetails?.dueDate || '');
   const { showToast } = useToast();
   const { showLoading, hideLoading } = useLoading();
-  
+
   useEffect(() => {
-    if (editableJobDetails?.status.value && [STATUS.COMPLETED, STATUS.SUBMITTED].includes(editableJobDetails.status.value)) {
-      if (editableJobDetails?.checklists) {
-        const updatedChecklists = editableJobDetails.checklists.map((checklist: any) => ({
-          ...checklist,
-          uploadedImages: checklist.uploadedImages || uploadedImages,
-        }));
-        setEditableJobDetails({
-          ...editableJobDetails,
-          checklists: updatedChecklists,
-        });
-      }
+    if (jobDetails?.dueDate) {
+      setRescheduleDate(jobDetails.dueDate);
     }
-  }, [jobDetails?.status]);
+  }, [jobDetails]);
+
 
 
   useEffect(() => {
@@ -138,19 +130,33 @@ const EngJobDetailsModal: React.FC<JobDetailsModalProps> = ({
     }
   };
 
-  const handleApproveTask = async () => {
+  const handleTaskAction = async (isApproved: boolean) => {
     try {
-      // const payload = {
-      //   // approveStatus: 'approved',
-      //   createdByRemarks: approvalRemarks,
-      // };
-      // await approveTask(editableJobDetails.id, payload);
-      const taskpayload = prepareTaskUpdatePayload(editableJobDetails, STATUS.COMPLETED);
+      if (!isApproved && !rescheduleDate) {
+        showToast('Please select a date for rescheduling.');
+        return;
+      }
+
+      showLoading();
+      const status = isApproved ? STATUS.COMPLETED : STATUS.TO_DO;
+
+      const taskpayload: any = {
+        status: status,
+        createdByRemarks: approvalRemarks,
+      };
+
+      if (!isApproved) {
+        taskpayload.dueDate = rescheduleDate;
+      }
+
       await updateTask(editableJobDetails.id, taskpayload);
       closeModal();
-      showToast('Successfully approved the task..!');
+      hideLoading();
+      showToast(isApproved ? 'Successfully approved the task..!' : 'Task returned for rescheduling..!');
     } catch (error) {
-      console.error('Failed to approve task:', error);
+      hideLoading();
+      console.error('Failed to update task action:', error);
+      showToast('Failed to update task status');
     }
   };
 
@@ -277,27 +283,42 @@ const EngJobDetailsModal: React.FC<JobDetailsModalProps> = ({
               <div className="approve-section">
                 <br />
                 <IonLabel>
-                  <strong>Approval Status:</strong>
+                  <strong>Process Task Submission:</strong>
                 </IonLabel>
-                <IonSelect
-                  placeholder="Select Approval Status"
-                  value={approvalStatus}
-                  onIonChange={(e) => setApprovalStatus(e.detail.value)}
-                  className="approval-select"
-                >
-                  <IonSelectOption value="approved">Approved</IonSelectOption>
-                  <IonSelectOption value="notApproved">Not Approved</IonSelectOption>
-                </IonSelect>
+                <hr />
+
                 <IonLabel>
-                  <strong>Approval Remarks:</strong>
+                  <strong>Approval/Rejection Remarks:</strong>
                 </IonLabel>
                 <IonInput
-                  placeholder="Add approval remarks"
+                  placeholder="Add remarks here..."
                   value={approvalRemarks}
                   onIonChange={(e: any) => setApprovalRemarks(e.detail.value)}
                   className="approval-remarks"
                 />
-                <CommonButton onClick={handleApproveTask} rootClass="approve-button" label={'Submit Approval'}></CommonButton>
+
+                <IonLabel>
+                  <strong>Reschedule To (If not approved):</strong>
+                </IonLabel>
+                <IonInput
+                  type="date"
+                  value={rescheduleDate}
+                  onIonChange={(e: any) => setRescheduleDate(e.detail.value)}
+                  className="reschedule-date"
+                />
+
+                <div style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
+                  <CommonButton
+                    onClick={() => handleTaskAction(true)}
+                    rootClass="approve-button"
+                    label={'Approve Task'}
+                  />
+                  <CommonButton
+                    onClick={() => handleTaskAction(false)}
+                    rootClass="reschedule-button"
+                    label={'Reschedule Task'}
+                  />
+                </div>
               </div>
             )}
           </IonCardContent>

@@ -10,6 +10,17 @@ export default defineConfig({
     react(),
     legacy()
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler'
+      }
+    }
+  },
+  server: {
+    host: true, // Listen on all addresses, including LAN and public addresses
+    port: 5173,
+  },
   test: {
     globals: true,
     environment: 'jsdom',

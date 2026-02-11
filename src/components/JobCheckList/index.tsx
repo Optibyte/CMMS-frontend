@@ -51,6 +51,7 @@ interface ChecklistComponentProps {
     handleCheckboxChange: Function;
     handleCheckListMode: any;
     onUploadImages?: any;
+    onRemoveImage?: any;
 }
 
 const ChecklistComponent: React.FC<ChecklistComponentProps> = ({
@@ -60,7 +61,8 @@ const ChecklistComponent: React.FC<ChecklistComponentProps> = ({
     handleCheckboxChange,
     handleCheckListMode,
     readOnly,
-    onUploadImages
+    onUploadImages,
+    onRemoveImage
 }) => {
     const [selectedImages, setSelectedImages] = useState<string[]>([]);
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -174,6 +176,7 @@ const ChecklistComponent: React.FC<ChecklistComponentProps> = ({
                                             uploadedImages={item.uploadedImages || []}
                                             isEditing={isEditing}
                                             onUploadImages={(files) => onUploadImages(files, index)}
+                                            onRemoveImage={(imageUrl) => onRemoveImage(imageUrl, index)}
                                         />
                                     </div>
                                     {(isFieldInvalid(item) && isEditing) && (

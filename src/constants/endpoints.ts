@@ -15,7 +15,12 @@ export const API_ENDPOINTS = {
     TASK_STATUS_SUMMARY: '/api/v1/cmms/task/status/summary',
     TASK_CREATE: '/api/v1/cmms/task',
     ASSET_FETCH: '/api/v1/cmms/asset',
-    FETCH_NOTIFICATION:`/api/v1/cmms/notifications/user/:userId`,
+    ASSET_CREATE: '/api/v1/cmms/asset',
+    ASSET_UPDATE: '/api/v1/cmms/asset/:assetId',
+    FETCH_NOTIFICATION: `/api/v1/cmms/notifications/user/:userId`,
     NOTIFICATION_READ: `/api/v1/cmms/notifications/:notificationId/read`,
-    APPROVE_HOD_TASK: '/api/v1/cmms/task/:taskid/approve'
+    APPROVE_HOD_TASK: '/api/v1/cmms/task/:taskid/approve',
+    UPLOAD_TASK_IMAGE: '/api/v1/cmms/task/upload-image',
+    DELETE_TASK_IMAGE: '/api/v1/cmms/task/delete-image',
+    GET_CHECKLIST_PHOTOS: (checklistId: string) => `/api/v1/cmms/task/checklist/${checklistId}/photos`
 };
